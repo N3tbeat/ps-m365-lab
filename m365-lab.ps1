@@ -33,7 +33,23 @@ $all | Group-Object department | select -ExpandProperty Group -First 3
 $all | Where-Object {$_.department -eq $null}
 
 $all |Where-Object{$PSItem.department -notlike ""}
-$all |Where-Object{$PSItem.department -ne $null -and $_.country -like "Unit**"}
+$all |Where-Object{$PSItem.department -ne $null -and $_.country -like "Unit*"}
 
 get-azureaduser -Filter "country eq 'United States'"
+get-azureaduser -filter "startswith(country, 'unit')"
+
+
+$alias = $all.userprincipalname -replace ("PattiF@M365x268284.OnMicrosoft.com","")
+
+#split
+$all.userprincipalname -split "@"
+
+
+#generate SMTP Address
+
+$all |ForEach-Object{
+        $pre = "SMTP:" + "$.DISPLAYNAME" -replace (" ",".")
+        $pre + "@" +(get-azureADDomain).Name
+    }
+
 
