@@ -76,7 +76,8 @@ $user = ConvertFrom-csv -Delimiter "," -InputObject $usr
 foreach ($newuser in $user){
     $displayname = ($newuser.'name.first'+" "+$newuser.'name.last') 
     $upn = $newuser.email -replace "example.com", "M365x268284.OnMicrosoft.com"
+    $alias = $newuser.'login.username'
     $PasswordProfile = New-Object -TypeName Microsoft.Open.AzureAD.Model.PasswordProfile
-    $PasswordProfile.Password = $newuser."login.password"
-    New-AzureADUser -DisplayName $displayname -PasswordProfile $PasswordProfile -UserPrincipalName $upn -AccountEnabled $true -MailNickName $newuser."id.name"
+    $PasswordProfile.Password = "Welcome2021**"
+    New-AzureADUser -DisplayName $displayname -PasswordProfile $PasswordProfile -UserPrincipalName $upn -MailNickName $alias -AccountEnabled $true 
 }
