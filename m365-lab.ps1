@@ -65,9 +65,12 @@ New-AzureADMSInvitation -InvitedUserDisplayName "Beat Schmidlin (Baggenstos)" -I
 
 
 
-#give GA to given UPN
+#list all guest accounts
 Get-AzureADUser -All $true | Where-Object {$_.UserType -eq 'Guest'}
 
+
+
+#give GA to given UPN
 $userName="bschmidlin_baggenstos.ch#EXT#@M365x268284.onmicrosoft.com"
 $roleName="Global Administrator"
 $role = Get-AzureADDirectoryRole | Where {$_.displayName -eq $roleName}
@@ -85,3 +88,14 @@ Get-AzureADDirectoryRole | Where { $_.DisplayName -eq $roleName } | Get-AzureADD
 
 
 #remove GA's from All exept beat, admin, MS SA
+Get-AzureADUser -All $true | Where-Object {$_.UserType -eq 'Guest'}
+
+$userName="bschmidlin_baggenstos.ch#EXT#@M365x268284.onmicrosoft.com"
+$roleName="Global Administrator"
+$role = Get-AzureADDirectoryRole | Where {$_.displayName -eq $roleName}
+if ($role -eq $null) {
+$roleTemplate = Get-AzureADDirectoryRoleTemplate | Where {$_.displayName -eq $roleName}
+Enable-AzureADDirectoryRole -RoleTemplateId $roleTemplate.ObjectId
+$role = Get-AzureADDirectoryRole | Where {$_.displayName -eq $roleName}
+}
+Add-AzureADDirectoryRoleMember -ObjectId $role.ObjectId -RefObjectId (Get-AzureADUser | Where {$_.UserPrincipalName -eq $userName}).ObjectID
