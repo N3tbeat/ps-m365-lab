@@ -74,7 +74,9 @@ $usr = New-RandomUser -Amount 10 -Nationality ch,de -Format csv
 
 $user = ConvertFrom-csv -Delimiter "," -InputObject $usr
 foreach ($newuser in $user){
+    $displayname = ($newuser.'name.first'+" "+$newuser.'name.last') 
+    $upn = $newuser.email -replace "example.com", "M365x268284.OnMicrosoft.com"
     $PasswordProfile = New-Object -TypeName Microsoft.Open.AzureAD.Model.PasswordProfile
-    $PasswordProfile.Password = $user."login.password"
-    New-AzureADUser -DisplayName $user."name.first" + $user."name.last"" -PasswordProfile $PasswordProfile -UserPrincipalName "$user."name.first""+"$user."name.last""+"@M365x268284.OnMicrosoft.com" -AccountEnabled $true 
+    $PasswordProfile.Password = $newuser."login.password"
+    New-AzureADUser -DisplayName $displayname -PasswordProfile $PasswordProfile -UserPrincipalName $upn -AccountEnabled $true -MailNickName $newuser."id.name"
 }
