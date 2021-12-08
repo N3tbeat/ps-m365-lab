@@ -2,6 +2,8 @@
 #admin@M365x268284.onmicrosoft.com
 #Qr60W8uoWX
 
+
+#cd C:\Program Files\git\bin
 #git config --global user.email "bschmidlin@baggenstos.ch"
 #git config --global user.name "n3tbeat"
 
