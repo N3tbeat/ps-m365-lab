@@ -68,5 +68,13 @@ function New-RandomUser {
 
 $usr = New-RandomUser -Amount 10 -Nationality ch,de -Format csv 
 
-ConvertFrom-csv -Delimiter "," -InputObject $usr
 
+
+
+
+$user = ConvertFrom-csv -Delimiter "," -InputObject $usr
+foreach ($newuser in $user){
+    $PasswordProfile = New-Object -TypeName Microsoft.Open.AzureAD.Model.PasswordProfile
+    $PasswordProfile.Password = $user."login.password"
+    New-AzureADUser -DisplayName $user."name.first" + $user."name.last"" -PasswordProfile $PasswordProfile -UserPrincipalName "$user."name.first""+"$user."name.last""+"@M365x268284.OnMicrosoft.com" -AccountEnabled $true 
+}
