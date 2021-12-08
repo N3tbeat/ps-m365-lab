@@ -90,3 +90,6 @@ $roleName="Global Administrator"
 Get-AzureADDirectoryRole | Where { $_.DisplayName -eq $roleName } | Get-AzureADDirectoryRoleMember | Ft DisplayName
 
 
+
+
+
